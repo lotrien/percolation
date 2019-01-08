@@ -14,8 +14,4 @@ export default class UnionFind {
   find(i, y) {
     return this.root(i) === this.root(y);
   }
-
-  percolates() {
-    return null;
-  }
 }
