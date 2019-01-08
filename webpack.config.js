@@ -3,6 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 module.exports = () => {
   const config = {
@@ -24,9 +25,22 @@ module.exports = () => {
       rules: [
         {
           test: /\.jsx?$/,
-          exclude: /(node_modules)/,
+          exclude: /node_modules/,
           include: path.resolve(__dirname, 'src'),
           use: ['babel-loader']
+        },
+
+        {
+          test: /\.css$/,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                publicPath: path.resolve(__dirname, 'dist')
+              }
+            },
+            "css-loader"
+          ]
         }
       ]
     },
@@ -39,6 +53,9 @@ module.exports = () => {
       new CleanWebpackPlugin([path.resolve(__dirname, 'dist')]),
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, 'src', 'index.html')
+      }),
+      new MiniCssExtractPlugin({
+        filename: "[name].[chunkhash].css"
       })
     ]
   };

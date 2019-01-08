@@ -1,0 +1,23 @@
+html, body, #root {
+  height: 100%;
+}
+
+#root {
+  background-color: #eee;
+}
+
+nav .brand-logo {
+  padding-left: 15px;
+}
+
+.card-panel {
+  margin-top: 1rem;
+}
+
+.btn:not(:first-of-type) {
+  margin-left: 7px;
+}
+
+.row {
+  margin-bottom: 0;
+}
