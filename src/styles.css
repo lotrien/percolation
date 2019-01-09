@@ -14,10 +14,36 @@ nav .brand-logo {
   margin-top: 1rem;
 }
 
+.card-title {
+  margin-top: 0;
+}
+
 .btn:not(:first-of-type) {
   margin-left: 7px;
 }
 
 .row {
   margin-bottom: 0;
+}
+
+.set-wrapper {
+  margin: 0 auto;
+}
+
+input[type=number]:not(.browser-default):focus:not([readonly]) {
+  border-bottom: 1px solid #1565c0;
+  box-shadow: 0 1px 0 0 #1565c0;
+}
+
+input[type=number]:not(.browser-default):focus:not([readonly]) + label {
+  color: #1565c0;
+}
+
+input[type=number]:not(.browser-default):focus:not([readonly]).invalid {
+  border-bottom: 1px solid #b71c1c;
+  box-shadow: 0 1px 0 0 #b71c1c;
+}
+
+input[type=number]:not(.browser-default):focus:not([readonly]).invalid + label {
+  color: #b71c1c;
 }

@@ -3,43 +3,58 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {
-  setWidth, setHeight, createGrid, run, stop, reset, openRandom
+  setWidth, setHeight, createSet, run, stop, openRandom
 } from '../actions'
+import { percolates, isValid } from '../utils';
 
 export class Header extends Component {
   static propTypes = {
-    inputData: PropTypes.object,
+    dimensions: PropTypes.object,
     simulator: PropTypes.object,
-  }
-
-  componentDidMount() {
-    const { height, width } = this.props.inputData;
-
-    this.props.createGrid(height, width);
+    set: PropTypes.array,
   }
 
   setWidth = width => this.props.setWidth(width);
-
   setHeight = height => this.props.setHeight(height);
 
   runSimulation = () => {
-    const { stop, run, createGrid } = this.props;
-    const { height, width } = this.props.inputData;
+    const { dimensions: { height, width } } = this.props;
 
-    createGrid(height, width);
-    run();
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+
+    this.props.createSet(width, height);
+    this.props.run();
+
+    this.intervalId = setInterval(() => {
+      this.props.openRandom();
+
+      if (percolates(this.props.set)) {
+        clearInterval(this.intervalId);
+        this.props.stop();
+      }
+    }, 50);
   }
 
-  stopSimulation = () => this.props.stop();
+  stopSimulation = () => {
+    clearInterval(this.intervalId);
+
+    this.props.stop();
+  }
 
   resetSimulation = () => {
-    const { height, width } = this.props.inputData;
+    const { dimensions: { height, width } } = this.props;
 
-    this.props.reset(width, height);
+    this.props.createSet(width, height);
   }
 
   render () {
-    const { height, width } = this.props.inputData;
+    const {
+      dimensions: { height, width },
+      simulator: { running },
+      set,
+    } = this.props;
 
     return (
       <Fragment>
@@ -54,28 +69,45 @@ export class Header extends Component {
         <div className="row">
           <div className="col s12">
             <div className="card-panel">
-              <div className="row">
-                <div className="input-field col s12 m6">
-                  <input
-                    id="rows"
-                    type="number"
-                    value={height}
-                    onChange={(e) => this.setHeight(e.target.value)} />
-                  <label htmlFor="rows">Number of rows</label>
+              <h5 className="card-title center">Dimensions</h5>
+              <div className="card-content">
+                <div className="row">
+                  <div className="input-field col s12 m6">
+                    <input
+                      id="cols"
+                      className={`${!isValid(width) ? 'invalid' : ''}`}
+                      type="number"
+                      value={width}
+                      onChange={(e) => this.setWidth(e.target.value)} />
+                    <label htmlFor="cols">Number of cols</label>
+                  </div>
+                  <div className="input-field col s12 m6">
+                    <input
+                      id="rows"
+                      className={`${!isValid(height) ? 'invalid' : ''}`}
+                      type="number"
+                      value={height}
+                      onChange={(e) => this.setHeight(e.target.value)} />
+                    <label htmlFor="rows">Number of rows</label>
+                  </div>
                 </div>
-                <div className="input-field col s12 m6">
-                  <input
-                    id="cols"
-                    type="number"
-                    value={width}
-                    onChange={(e) => this.setWidth(e.target.value)} />
-                  <label htmlFor="cols">Number of cols</label>
+                <div className="row">
+                  <a className="waves-effect waves-light btn blue darken-3"
+                    onClick={this.runSimulation}
+                    disabled={(!height || !width) || running}>
+                    Run
+                  </a>
+                  <a className="waves-effect waves-light btn blue darken-3"
+                    onClick={this.stopSimulation}
+                    disabled={!running}>
+                    Stop
+                  </a>
+                  <a className="waves-effect waves-light btn blue darken-3"
+                    onClick={this.resetSimulation}
+                    disabled={!set.length || running}>
+                    Reset
+                  </a>
                 </div>
-              </div>
-              <div className="row">
-                <a className="waves-effect waves-light btn blue darken-3" onClick={this.runSimulation}>Run</a>
-                <a className="waves-effect waves-light btn blue darken-3" onClick={this.stopSimulation}>Stop</a>
-                <a className="waves-effect waves-light btn blue darken-3" onClick={this.resetSimulation}>Reset</a>
               </div>
             </div>
           </div>
@@ -85,18 +117,18 @@ export class Header extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const { simulator, inputData } = state;
-  return { simulator, inputData };
-}
+const mapStateToProps = state => ({
+  dimensions: state.dimensions,
+  simulator: state.simulator,
+  set: state.set,
+});
 
 const mapDispatchToProps = dispatch => ({
-  createGrid: (width, height) => dispatch(createGrid(width, height)),
+  createSet: (width, height) => dispatch(createSet(width, height)),
   setHeight: height => dispatch(setHeight(height)),
   setWidth: width => dispatch(setWidth(width)),
   run: () => dispatch(run()),
   stop: () => dispatch(stop()),
-  reset: (width, height) => dispatch(reset(width, height)),
   openRandom: () => dispatch(openRandom()),
 })
 

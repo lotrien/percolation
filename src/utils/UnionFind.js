@@ -1,17 +1,23 @@
 export default class UnionFind {
-  constructor(grid) {
-    this.grid = grid;
+  constructor(disjointSets) {
+    this.disjointSets = disjointSets;
   }
 
   root(i) {
+    while (i !== this.disjointSets[i].id) {
+      i = this.disjointSets[i].id;
+    }
+
     return i;
   }
 
-  union(i, y) {
-    return null;
+  union(el1, el2) {
+    const [ i, j ] = [ this.root(el1.key), this.root(el2.key) ];
+
+    this.disjointSets[i].id = j;
   }
 
-  find(i, y) {
-    return this.root(i) === this.root(y);
+  find(el1, el2) {
+    return this.root(el1.key) === this.root(el2.key);
   }
 }

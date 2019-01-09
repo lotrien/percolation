@@ -1,5 +1,5 @@
 import {
-  SET_WIDTH, SET_HEIGHT, RUN, STOP, RESET, OPEN_RANDOM, CREATE_GRID,
+  SET_WIDTH, SET_HEIGHT, RUN, STOP, OPEN_RANDOM, CREATE_SET
 } from './constants';
 
 export const setWidth = width => ({
@@ -16,8 +16,8 @@ export const setHeight = height => ({
   },
 })
 
-export const createGrid = (width, height) => ({
-  type: CREATE_GRID,
+export const createSet = (width, height) => ({
+  type: CREATE_SET,
   payload: {
     width,
     height,
@@ -26,11 +26,4 @@ export const createGrid = (width, height) => ({
 
 export const run = () => ({ type: RUN })
 export const stop = () => ({ type: STOP })
-export const reset = (width, height) => ({
-  type: RESET,
-  payload: {
-    width,
-    height,
-  },
-})
 export const openRandom = () => ({ type: OPEN_RANDOM })

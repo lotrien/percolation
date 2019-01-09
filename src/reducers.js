@@ -1,14 +1,15 @@
 import { combineReducers } from 'redux';
 
 import {
-  SET_WIDTH, SET_HEIGHT, RUN, STOP, RESET, OPEN_RANDOM, CREATE_GRID,
-  INIT_SIMULATOR_STATE, INIT_INPUT_STATE,
+  SET_WIDTH, SET_HEIGHT, RUN, STOP, OPEN_RANDOM, CREATE_SET,
+  INIT_SIMULATOR_STATE, INIT_INPUT_STATE, IS_PERCOLATES,
 } from './constants';
+import { random, createSet, neighbors, open, checkPercolationAndFill } from './utils'
 
 function simulator(state = INIT_SIMULATOR_STATE, action) {
   switch (action.type) {
-    case CREATE_GRID:
-      return { ...state, gridWidth: state.elementSize * action.payload.width };
+    case CREATE_SET:
+      return { ...state, setWidth: state.elementSize * action.payload.width };
 
     case RUN:
       return { ...state, running: true };
@@ -16,17 +17,12 @@ function simulator(state = INIT_SIMULATOR_STATE, action) {
     case STOP:
       return { ...state, running: false };
 
-    case RESET:
-      return { ...state, running: false };
-
     default:
       return state;
   }
-
-  return state;
 }
 
-function inputData(state = INIT_INPUT_STATE, action) {
+function dimensions(state = INIT_INPUT_STATE, action) {
   switch (action.type) {
     case SET_WIDTH:
       return { ...state, width: action.payload.width };
@@ -39,9 +35,31 @@ function inputData(state = INIT_INPUT_STATE, action) {
   }
 }
 
+function set(state = [], action) {
+  switch (action.type) {
+    case CREATE_SET:
+      const { width, height } = action.payload;
+      let set = createSet(width, height);
+
+      return neighbors(set, width, height);
+
+    case OPEN_RANDOM:
+      let newState = [...state];
+      let closed = state.filter(elem => elem.state === 'close')
+
+      newState = open(newState, random(closed));
+
+      return checkPercolationAndFill(newState);
+
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
   simulator,
-  inputData,
+  dimensions,
+  set,
 });
 
 export default rootReducer;

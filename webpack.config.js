@@ -8,6 +8,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 module.exports = () => {
   const config = {
     mode: 'development',
+    devtool: 'source-map',
     devServer: {
       historyApiFallback: true,
     },
