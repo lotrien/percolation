@@ -68,7 +68,7 @@ export class Header extends Component {
         </nav>
         <div className="row">
           <div className="col s12">
-            <div className="card-panel">
+            <div className="card-panel dimensions">
               <h5 className="card-title center">Dimensions</h5>
               <div className="card-content">
                 <div className="row">
