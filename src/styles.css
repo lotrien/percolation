@@ -10,7 +10,7 @@ nav .brand-logo {
   padding-left: 15px;
 }
 
-.card-panel.dimensions {
+.card-panel {
   margin-top: 1rem;
 }
 
@@ -26,8 +26,13 @@ nav .brand-logo {
   margin-bottom: 0;
 }
 
+.row.stats {
+  margin-top: 20px;
+}
+
 .set-wrapper {
   margin: 0 auto;
+  padding-top: 20px;
 }
 
 input[type=number]:not(.browser-default):focus:not([readonly]) {

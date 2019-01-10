@@ -1,15 +1,25 @@
 import React, { Component, Fragment } from 'react';
 
-import Header from './Header';
+import Controls from './Controls';
 import Simulator from './Simulator';
-import Stats from './Stats';
 
 export default class App extends Component {
   render() {
-    return (<Fragment>
-      <Header />
-      <Simulator />
-      <Stats />
-    </Fragment>);
+    return (
+      <Fragment>
+        <nav className="blue darken-2">
+          <div className="nav-wrapper">
+            <a href="/" className="brand-logo">Percolation Simulator</a>
+            <ul className="right">
+              <li><a href="https://github.com/olha-kurkaiedova/percolation">View on GitHub</a></li>
+            </ul>
+          </div>
+        </nav>
+        <div className="row">
+          <Controls />
+          <Simulator />
+        </div>
+      </Fragment>
+    );
   }
 }

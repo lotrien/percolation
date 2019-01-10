@@ -11,14 +11,10 @@ export default class Stats extends Component {
 
   render() {
     return (
-      <div className="row">
+      <div className="row stats">
         <div className="col s12">
-          <div className="card-panel">
-            <h5 className="card-title center">Percolation stats</h5>
-            <ul className="card-content center">
-              {Stats.renderStats([])}
-            </ul>
-          </div>
+          <h5>Percolation stats</h5>
+          <ul>{Stats.renderStats([])}</ul>
         </div>
       </div>
     )

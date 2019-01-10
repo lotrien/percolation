@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import Dot from './Dot';
+import Loader from './Loader';
 
 export class Simulator extends Component {
    static getSetStyles = setWidth => ({
@@ -10,6 +11,9 @@ export class Simulator extends Component {
   })
 
   getSet = (set, elementSize) => {
+    if (!set.length) {
+      return <Loader />;
+    }
     return set.filter(el => el.type !== 'virtual').map(e => {
       return <Dot key={e.key} state={e.state} size={elementSize} />
     });
@@ -20,8 +24,8 @@ export class Simulator extends Component {
     const styles = Simulator.getSetStyles(setWidth);
 
     return (
-      <div className="row">
-        <div className="col s12">
+      <Fragment>
+        <div className="col s12 m9">
           <div className="card-panel center">
             <h5 className="card-title">Visualization</h5>
             <div className="card-content">
@@ -33,7 +37,7 @@ export class Simulator extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </Fragment>
     )
   }
 }
