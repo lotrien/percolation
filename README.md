@@ -2,7 +2,7 @@
 
 I model the system as an n-by-m grid of sites. Each site is either blocked (black) or open (white);
 open sites are initially empty. A full site is an open site that can be connected to an open site
-in the top row via a chain of neighboring (top, bottom, left, right) open sites.
+in the top row via a chain of neighboring (up, down, left, right) open sites.
 
 If there is a full site in the bottom row, then we say that the system percolates.
 

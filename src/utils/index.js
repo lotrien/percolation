@@ -23,27 +23,38 @@ export const neighbors = (set, width, height) => {
   set.filter(element => element.type !== 'virtual').forEach(element => {
     let { i, j } = element;
 
-    element.top = (i === 0);
-    element.bottom = (i === height - 1);
+    element.up = (i === 0);
+    element.down = (i === height - 1);
     element.left = (j === 0);
     element.right = (j === width - 1);
     element.neighbors = [];
 
-    if (!element.top) {
-      element.neighbors.push(set.find(elem => elem.i === i - 1 && elem.j === j).key);
+    if (!element.up) {
+      element.neighbors.push(getNeighbor(set, { i, j }, 'up'));
     }
-    if (!element.bottom) {
-      element.neighbors.push(set.find(elem => elem.i === i + 1 && elem.j === j).key);
+    if (!element.down) {
+      element.neighbors.push(getNeighbor(set, { i, j }, 'down'));
     }
     if (!element.left) {
-      element.neighbors.push(set.find(elem => elem.i === i && elem.j === j - 1).key);
+      element.neighbors.push(getNeighbor(set, { i, j }, 'left'));
     }
     if (!element.right) {
-      element.neighbors.push(set.find(elem => elem.i === i && elem.j === j + 1).key);
+      element.neighbors.push(getNeighbor(set, { i, j }, 'right'));
     }
   });
 
   return set;
+}
+
+export const getNeighbor = (set, { i, j }, side) => {
+  const sides = {
+    up: () => set.find(elem => elem.i === i - 1 && elem.j === j),
+    down: () => set.find(elem => elem.i === i + 1 && elem.j === j),
+    left: () => set.find(elem => elem.i === i && elem.j === j - 1),
+    right: () => set.find(elem => elem.i === i && elem.j === j + 1),
+  }
+
+  return sides[side]().key;
 }
 
 export const percolates = set => {
@@ -55,9 +66,9 @@ export const open = (set, el) => {
 
   el.state = 'open';
 
-  if (el.top) {
+  if (el.up) {
     uf.union(el, set[0]);
-  } else if (el.bottom) {
+  } else if (el.down) {
     uf.union(el, set[set.length - 1]);
   }
 
@@ -76,9 +87,9 @@ export const checkPercolationAndFill = set => {
 
   set.filter(e => e.state === SIMULATOR_STATES.OPEN)
     .forEach(element => {
-      if (uf.find(element, set[0])) {
+      if (uf.connected(element, set[0])) {
         element.state = SIMULATOR_STATES.FILL;
-        if (element.bottom) {
+        if (element.down) {
           set[set.length - 1].state = SIMULATOR_STATES.FILL;
         }
       }

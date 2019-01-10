@@ -17,7 +17,7 @@ export default class UnionFind {
     this.disjointSets[i].id = j;
   }
 
-  find(el1, el2) {
+  connected(el1, el2) {
     return this.root(el1.key) === this.root(el2.key);
   }
 }
