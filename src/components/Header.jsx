@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {
-  setWidth, setHeight, createSet, run, stop, openRandom
+  setDimensions, createSet, run, stop, openRandom
 } from '../actions'
 import { percolates, isValid } from '../utils';
 
@@ -14,17 +14,16 @@ export class Header extends Component {
     set: PropTypes.array,
   }
 
-  setWidth = width => this.props.setWidth(width);
-  setHeight = height => this.props.setHeight(height);
+  setDimensions = n => this.props.setDimensions(n);
 
   runSimulation = () => {
-    const { dimensions: { height, width } } = this.props;
+    const { dimensions: { n } } = this.props;
 
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
 
-    this.props.createSet(width, height);
+    this.props.createSet(n);
     this.props.run();
 
     this.intervalId = setInterval(() => {
@@ -44,14 +43,14 @@ export class Header extends Component {
   }
 
   resetSimulation = () => {
-    const { dimensions: { height, width } } = this.props;
+    const { dimensions: { n } } = this.props;
 
-    this.props.createSet(width, height);
+    this.props.createSet(n);
   }
 
   render () {
     const {
-      dimensions: { height, width },
+      dimensions: { n },
       simulator: { running },
       set,
     } = this.props;
@@ -66,35 +65,26 @@ export class Header extends Component {
             </ul>
           </div>
         </nav>
-        <div className="row">
+        <div className="row center">
           <div className="col s12">
             <div className="card-panel dimensions">
-              <h5 className="card-title center">Dimensions</h5>
+              <h5 className="card-title">Dimensions (n-by-n)</h5>
               <div className="card-content">
                 <div className="row">
-                  <div className="input-field col s12 m6">
+                  <div className="input-field col s12 m4 offset-m4">
                     <input
-                      id="cols"
-                      className={`${!isValid(width) ? 'invalid' : ''}`}
+                      id="dimension"
+                      className={`${!isValid(n) ? 'invalid' : ''}`}
                       type="number"
-                      value={width}
-                      onChange={(e) => this.setWidth(e.target.value)} />
-                    <label htmlFor="cols">Number of cols</label>
-                  </div>
-                  <div className="input-field col s12 m6">
-                    <input
-                      id="rows"
-                      className={`${!isValid(height) ? 'invalid' : ''}`}
-                      type="number"
-                      value={height}
-                      onChange={(e) => this.setHeight(e.target.value)} />
-                    <label htmlFor="rows">Number of rows</label>
+                      value={n}
+                      onChange={(e) => this.setDimensions(e.target.value)} />
+                    <label htmlFor="dimension">Dimension (n)</label>
                   </div>
                 </div>
                 <div className="row">
                   <a className="waves-effect waves-light btn blue darken-3"
                     onClick={this.runSimulation}
-                    disabled={(!height || !width) || running}>
+                    disabled={!n || running}>
                     Run
                   </a>
                   <a className="waves-effect waves-light btn blue darken-3"
@@ -124,9 +114,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createSet: (width, height) => dispatch(createSet(width, height)),
-  setHeight: height => dispatch(setHeight(height)),
-  setWidth: width => dispatch(setWidth(width)),
+  createSet: n => dispatch(createSet(n)),
+  setDimensions: n => dispatch(setDimensions(n)),
   run: () => dispatch(run()),
   stop: () => dispatch(stop()),
   openRandom: () => dispatch(openRandom()),

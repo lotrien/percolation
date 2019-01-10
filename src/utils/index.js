@@ -1,14 +1,14 @@
 import UnionFind from './UnionFind';
 import { SIMULATOR_STATES } from '../constants';
 
-export const createSet = (width, height) => {
+export const createSet = n => {
   let set = [];
 
   set.push({ key: 0, id: 0, state: SIMULATOR_STATES.FILL, type: 'virtual' });
 
   let key = 1;
-  for (let i = 0; i < height; i++) {
-    for (let j = 0; j < width; j++) {
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
       set.push({ key, i, j, id: key, state: SIMULATOR_STATES.CLOSE });
       key++;
     }
@@ -19,14 +19,14 @@ export const createSet = (width, height) => {
   return set;
 }
 
-export const neighbors = (set, width, height) => {
+export const neighbors = (set, n) => {
   set.filter(element => element.type !== 'virtual').forEach(element => {
     let { i, j } = element;
 
     element.up = (i === 0);
-    element.down = (i === height - 1);
+    element.down = (i === n - 1);
     element.left = (j === 0);
-    element.right = (j === width - 1);
+    element.right = (j === n - 1);
     element.neighbors = [];
 
     if (!element.up) {

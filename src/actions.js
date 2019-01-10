@@ -1,27 +1,15 @@
 import {
-  SET_WIDTH, SET_HEIGHT, RUN, STOP, OPEN_RANDOM, CREATE_SET
+  SET_DIMENSION, RUN, STOP, OPEN_RANDOM, CREATE_SET
 } from './constants';
 
-export const setWidth = width => ({
-  type: SET_WIDTH,
-  payload: {
-    width,
-  },
+export const setDimensions = n => ({
+  type: SET_DIMENSION,
+  payload: { n },
 })
 
-export const setHeight = height => ({
-  type: SET_HEIGHT,
-  payload: {
-    height,
-  },
-})
-
-export const createSet = (width, height) => ({
+export const createSet = n => ({
   type: CREATE_SET,
-  payload: {
-    width,
-    height,
-  },
+  payload: { n },
 })
 
 export const run = () => ({ type: RUN })

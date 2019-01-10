@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 import {
-  SET_WIDTH, SET_HEIGHT, RUN, STOP, OPEN_RANDOM, CREATE_SET,
+  SET_DIMENSION, RUN, STOP, OPEN_RANDOM, CREATE_SET,
   INIT_SIMULATOR_STATE, INIT_INPUT_STATE,
 } from './constants';
 import { random, createSet, neighbors, open, checkPercolationAndFill } from './utils'
@@ -9,7 +9,7 @@ import { random, createSet, neighbors, open, checkPercolationAndFill } from './u
 function simulator(state = INIT_SIMULATOR_STATE, action) {
   switch (action.type) {
     case CREATE_SET:
-      return { ...state, setWidth: state.elementSize * action.payload.width };
+      return { ...state, setWidth: state.elementSize * action.payload.n };
 
     case RUN:
       return { ...state, running: true };
@@ -24,11 +24,8 @@ function simulator(state = INIT_SIMULATOR_STATE, action) {
 
 function dimensions(state = INIT_INPUT_STATE, action) {
   switch (action.type) {
-    case SET_WIDTH:
-      return { ...state, width: action.payload.width };
-
-    case SET_HEIGHT:
-      return { ...state, height: action.payload.height };
+    case SET_DIMENSION:
+      return { ...state, n: action.payload.n };
 
     default:
       return state;
@@ -38,10 +35,10 @@ function dimensions(state = INIT_INPUT_STATE, action) {
 function set(state = [], action) {
   switch (action.type) {
     case CREATE_SET:
-      const { width, height } = action.payload;
-      let set = createSet(width, height);
+      const { n } = action.payload;
+      let set = createSet(n);
 
-      return neighbors(set, width, height);
+      return neighbors(set, n);
 
     case OPEN_RANDOM:
       let newState = [...state];

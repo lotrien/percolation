@@ -1,19 +1,17 @@
-export const SET_WIDTH = 'SET_WIDTH';
-export const SET_HEIGHT = 'SET_HEIGHT';
+export const SET_DIMENSION = 'SET_DIMENSION';
 export const RUN = 'RUN';
 export const STOP = 'STOP';
 export const OPEN_RANDOM = 'OPEN_RANDOM';
 export const CREATE_SET = 'CREATE_SET';
 
 export const INIT_INPUT_STATE = {
-  height: 10,
-  width: 10,
+  n: 10,
 };
 
 export const INIT_SIMULATOR_STATE = {
   elementSize: 15,
   running: false,
-  setWidth: 15 * INIT_INPUT_STATE.width,
+  setWidth: 15 * INIT_INPUT_STATE.n,
   percolates: false,
 };
 
