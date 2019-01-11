@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux';
 
 import {
-  SET_DIMENSION, RUN, STOP, OPEN_RANDOM, CREATE_SET,
+  SET_DIMENSION, RUN, STOP, OPEN_RANDOM, CREATE_DISJOINT_SET,
   INIT_SIMULATOR_STATE, INIT_INPUT_STATE, ADD_STATS,
 } from './constants';
 import { random, createSet, neighbors, open, checkPercolationAndFill } from './utils'
 
 function simulator(state = INIT_SIMULATOR_STATE, action) {
   switch (action.type) {
-    case CREATE_SET:
+    case CREATE_DISJOINT_SET:
       return { ...state, setWidth: state.elementSize * action.payload.n };
 
     case RUN:
@@ -32,13 +32,13 @@ function dimensions(state = INIT_INPUT_STATE, action) {
   }
 }
 
-function set(state = [], action) {
+function disjointSet(state = [], action) {
   switch (action.type) {
-    case CREATE_SET:
+    case CREATE_DISJOINT_SET:
       const { n } = action.payload;
-      let set = createSet(n);
+      let disjointSet = createSet(n);
 
-      return neighbors(set, n);
+      return neighbors(disjointSet, n);
 
     case OPEN_RANDOM:
       let newState = [...state];
@@ -74,7 +74,7 @@ function stats(state = [], action) {
 const rootReducer = combineReducers({
   simulator,
   dimensions,
-  set,
+  disjointSet,
   stats,
 });
 

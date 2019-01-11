@@ -1,5 +1,5 @@
 import {
-  SET_DIMENSION, RUN, STOP, OPEN_RANDOM, CREATE_SET, ADD_STATS
+  SET_DIMENSION, RUN, STOP, OPEN_RANDOM, CREATE_DISJOINT_SET, ADD_STATS
 } from './constants';
 
 export const setDimensions = n => ({
@@ -7,8 +7,8 @@ export const setDimensions = n => ({
   payload: { n },
 })
 
-export const createSet = n => ({
-  type: CREATE_SET,
+export const createDisjointSet = n => ({
+  type: CREATE_DISJOINT_SET,
   payload: { n },
 })
 

@@ -10,17 +10,17 @@ export class Simulator extends Component {
     minWidth: setWidth + 'px',
   })
 
-  getSet = (set, elementSize) => {
-    if (!set.length) {
+  getDisjointSet = (disjointSet, elementSize) => {
+    if (!disjointSet.length) {
       return <Loader />;
     }
-    return set.filter(el => el.type !== 'virtual').map(e => {
+    return disjointSet.filter(el => el.type !== 'virtual').map(e => {
       return <Dot key={e.key} state={e.state} size={elementSize} />
     });
   }
 
   render () {
-    const { simulator: { elementSize, setWidth }, set } = this.props;
+    const { simulator: { elementSize, setWidth }, disjointSet } = this.props;
     const styles = Simulator.getSetStyles(setWidth);
 
     return (
@@ -31,7 +31,7 @@ export class Simulator extends Component {
             <div className="card-content">
               <div className="row">
                 <div className="set-wrapper" style={styles}>
-                  {this.getSet(set, elementSize)}
+                  {this.getDisjointSet(disjointSet, elementSize)}
                 </div>
               </div>
             </div>
@@ -44,7 +44,7 @@ export class Simulator extends Component {
 
 const mapStateToProps = state => ({
   simulator: state.simulator,
-  set: state.set,
+  disjointSet: state.disjointSet,
 });
 
 export default connect(mapStateToProps, null)(Simulator);

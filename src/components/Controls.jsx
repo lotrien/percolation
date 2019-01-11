@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {
-  setDimensions, createSet, run, stop, openRandom, addStats,
+  setDimensions, createDisjointSet, run, stop, openRandom, addStats,
 } from '../actions'
 import { percolates, isValid } from '../utils';
 import Stats from './Stats';
@@ -12,7 +12,7 @@ export class Controls extends Component {
   static propTypes = {
     dimensions: PropTypes.object,
     simulator: PropTypes.object,
-    set: PropTypes.array,
+    disjointSet: PropTypes.array,
   }
 
   setDimensions = n => this.props.setDimensions(n);
@@ -24,7 +24,7 @@ export class Controls extends Component {
       clearInterval(this.intervalId);
     }
 
-    this.props.createSet(n);
+    this.props.createDisjointSet(n);
     this.props.run();
 
     let count = 0;
@@ -32,7 +32,7 @@ export class Controls extends Component {
       this.props.openRandom();
       count++;
 
-      if (percolates(this.props.set)) {
+      if (percolates(this.props.disjointSet)) {
         clearInterval(this.intervalId);
         this.props.addStats(n, count);
         this.props.stop();
@@ -49,14 +49,14 @@ export class Controls extends Component {
   resetSimulation = () => {
     const { dimensions: { n } } = this.props;
 
-    this.props.createSet(n);
+    this.props.createDisjointSet(n);
   }
 
   render () {
     const {
       dimensions: { n },
       simulator: { running },
-      set,
+      disjointSet,
       stats,
     } = this.props;
 
@@ -88,7 +88,7 @@ export class Controls extends Component {
                 </a>
                 <a className="waves-effect waves-light btn blue darken-3"
                   onClick={this.resetSimulation}
-                  disabled={!set.length || running}>
+                  disabled={!disjointSet.length || running}>
                   Reset
                 </a>
               </div>
@@ -104,12 +104,12 @@ export class Controls extends Component {
 const mapStateToProps = state => ({
   dimensions: state.dimensions,
   simulator: state.simulator,
-  set: state.set,
+  disjointSet: state.disjointSet,
   stats: state.stats,
 });
 
 const mapDispatchToProps = dispatch => ({
-  createSet: n => dispatch(createSet(n)),
+  createDisjointSet: n => dispatch(createDisjointSet(n)),
   setDimensions: n => dispatch(setDimensions(n)),
   run: () => dispatch(run()),
   stop: () => dispatch(stop()),
