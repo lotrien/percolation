@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {
-  setDimensions, createSet, run, stop, openRandom
+  setDimensions, createSet, run, stop, openRandom, addStats,
 } from '../actions'
 import { percolates, isValid } from '../utils';
 import Stats from './Stats';
@@ -27,11 +27,14 @@ export class Controls extends Component {
     this.props.createSet(n);
     this.props.run();
 
+    let count = 0;
     this.intervalId = setInterval(() => {
       this.props.openRandom();
+      count++;
 
       if (percolates(this.props.set)) {
         clearInterval(this.intervalId);
+        this.props.addStats(n, count);
         this.props.stop();
       }
     }, 50);
@@ -54,6 +57,7 @@ export class Controls extends Component {
       dimensions: { n },
       simulator: { running },
       set,
+      stats,
     } = this.props;
 
     return (
@@ -88,7 +92,7 @@ export class Controls extends Component {
                   Reset
                 </a>
               </div>
-              <Stats />
+              <Stats stats={stats} />
             </div>
           </div>
         </div>
@@ -101,6 +105,7 @@ const mapStateToProps = state => ({
   dimensions: state.dimensions,
   simulator: state.simulator,
   set: state.set,
+  stats: state.stats,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -108,6 +113,7 @@ const mapDispatchToProps = dispatch => ({
   setDimensions: n => dispatch(setDimensions(n)),
   run: () => dispatch(run()),
   stop: () => dispatch(stop()),
+  addStats: (n, count) => dispatch(addStats(n, count)),
   openRandom: () => dispatch(openRandom()),
 })
 

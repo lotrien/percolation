@@ -3,6 +3,7 @@ export const RUN = 'RUN';
 export const STOP = 'STOP';
 export const OPEN_RANDOM = 'OPEN_RANDOM';
 export const CREATE_SET = 'CREATE_SET';
+export const ADD_STATS = 'ADD_STATS';
 
 export const INIT_INPUT_STATE = {
   n: 10,

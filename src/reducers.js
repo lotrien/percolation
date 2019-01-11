@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 import {
   SET_DIMENSION, RUN, STOP, OPEN_RANDOM, CREATE_SET,
-  INIT_SIMULATOR_STATE, INIT_INPUT_STATE,
+  INIT_SIMULATOR_STATE, INIT_INPUT_STATE, ADD_STATS,
 } from './constants';
 import { random, createSet, neighbors, open, checkPercolationAndFill } from './utils'
 
@@ -53,10 +53,29 @@ function set(state = [], action) {
   }
 }
 
+function stats(state = [], action) {
+  switch (action.type) {
+    case ADD_STATS:
+      const { n, count } = action.payload;
+      return [
+        ...state,
+        {
+          key: state.length + 1,
+          n,
+          count,
+        }
+      ];
+
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
   simulator,
   dimensions,
   set,
+  stats,
 });
 
 export default rootReducer;

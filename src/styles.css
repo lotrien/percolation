@@ -30,6 +30,20 @@ nav .brand-logo {
   margin-top: 20px;
 }
 
+.stats ul {
+  text-align: left;
+}
+
+.empty-stats {
+  text-align: center;
+}
+
+.stats ul li:not(.empty-stats) {
+  padding-bottom: 7px;
+  list-style-type: disc;
+  margin-left: 11px;
+}
+
 .set-wrapper {
   margin: 0 auto;
   padding-top: 20px;
