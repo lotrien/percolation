@@ -3,7 +3,7 @@ export default class UnionFind {
     this.disjointSets = disjointSets;
   }
 
-  root(i) {
+  _root(i) {
     while (i !== this.disjointSets[i].id) {
       i = this.disjointSets[i].id;
     }
@@ -12,12 +12,12 @@ export default class UnionFind {
   }
 
   union(el1, el2) {
-    const [ i, j ] = [ this.root(el1.key), this.root(el2.key) ];
+    const [ i, j ] = [ this._root(el1.key), this._root(el2.key) ];
 
     this.disjointSets[i].id = j;
   }
 
   connected(el1, el2) {
-    return this.root(el1.key) === this.root(el2.key);
+    return this._root(el1.key) === this._root(el2.key);
   }
 }
