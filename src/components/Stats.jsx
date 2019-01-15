@@ -20,7 +20,7 @@ export default class Stats extends Component {
       <div className="row stats">
         <div className="col s12">
           <h5>Percolation stats</h5>
-          <ul>{Stats.renderStats(stats)}</ul>
+          <ul className={`stats-list ${!stats.length ? 'empty' : ''}`}>{Stats.renderStats(stats)}</ul>
         </div>
       </div>
     )

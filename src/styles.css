@@ -38,10 +38,15 @@ nav .brand-logo {
   text-align: center;
 }
 
+.stats-list:not(.empty) {
+  height: 300px;
+  overflow-y: scroll;
+}
+
 .stats ul li:not(.empty-stats) {
   padding-bottom: 7px;
   list-style-type: disc;
-  margin-left: 11px;
+  list-style-position: inside;
 }
 
 .set-wrapper {
