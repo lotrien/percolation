@@ -1,26 +1,52 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Dot from './Dot';
 import Loader from './Loader';
 
 export class Simulator extends Component {
+  static propTypes = {
+    elementSize: PropTypes.number,
+    setWidth: PropTypes.number,
+    percolation: PropTypes.object,
+  }
+
    static getSetStyles = setWidth => ({
     maxWidth: setWidth + 'px',
     minWidth: setWidth + 'px',
   })
 
-  getDisjointSet = (disjointSet, elementSize) => {
-    if (!disjointSet.length) {
+  static STATES = { CLOSE: 'close', OPEN: 'open', FULL: 'full' }
+
+  getDisjointSet = (percolation, elementSize) => {
+    if (!percolation) {
       return <Loader />;
     }
-    return disjointSet.filter(el => el.type !== 'virtual').map(e => {
-      return <Dot key={e.key} state={e.state} size={elementSize} />
-    });
+
+    let rv = [];
+    
+    for (let i = 0; i < percolation._size; i++) {
+      for (let j = 0; j < percolation._size; j++) {
+        const key = i * percolation._size + j;
+
+        let state = Simulator.STATES.CLOSE;
+
+        if (percolation.isFull(i, j)) {
+          state = Simulator.STATES.FULL;
+        } else if (percolation.isOpen(i, j)) {
+          state = Simulator.STATES.OPEN;
+        }
+
+        rv.push(<Dot key={key} state={state} size={elementSize} />);
+      }
+    }
+
+    return rv;
   }
 
   render () {
-    const { simulator: { elementSize, setWidth }, disjointSet } = this.props;
+    const { elementSize, setWidth, percolation } = this.props;
     const styles = Simulator.getSetStyles(setWidth);
 
     return (
@@ -31,7 +57,7 @@ export class Simulator extends Component {
             <div className="card-content">
               <div className="row">
                 <div className="set-wrapper" style={styles}>
-                  {this.getDisjointSet(disjointSet, elementSize)}
+                  {this.getDisjointSet(percolation.model, elementSize)}
                 </div>
               </div>
             </div>
@@ -43,8 +69,9 @@ export class Simulator extends Component {
 }
 
 const mapStateToProps = state => ({
-  simulator: state.simulator,
-  disjointSet: state.disjointSet,
+  elementSize: state.simulator.elementSize,
+  setWidth: state.simulator.setWidth,
+  percolation: state.percolation,
 });
 
 export default connect(mapStateToProps, null)(Simulator);

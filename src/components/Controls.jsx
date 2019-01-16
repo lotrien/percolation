@@ -5,20 +5,28 @@ import { connect } from 'react-redux';
 import {
   setDimensions, createDisjointSet, run, stop, openRandom, addStats,
 } from '../actions'
-import { percolates, isValid } from '../utils';
+import { INIT_INPUT_STATE } from '../constants';
+import { isValid } from '../utils/utils';
 import Stats from './Stats';
 
 export class Controls extends Component {
-  static propTypes = {
-    dimensions: PropTypes.object,
-    simulator: PropTypes.object,
-    disjointSet: PropTypes.array,
+  constructor() {
+    super();
+    this.state = {
+      n: INIT_INPUT_STATE.n,
+    }
   }
 
-  setDimensions = n => this.props.setDimensions(n);
+  static propTypes = {
+    running: PropTypes.bool,
+    pModel: PropTypes.object,
+    stats: PropTypes.array,
+  }
+
+  setDimensions = n => this.setState({ n });
 
   runSimulation = () => {
-    const { dimensions: { n } } = this.props;
+    const { n } = this.state;
 
     if (this.intervalId) {
       clearInterval(this.intervalId);
@@ -27,14 +35,12 @@ export class Controls extends Component {
     this.props.createDisjointSet(n);
     this.props.run();
 
-    let count = 0;
     this.intervalId = setInterval(() => {
       this.props.openRandom();
-      count++;
 
-      if (percolates(this.props.disjointSet)) {
+      if (this.props.pModel.percolates()) {
         clearInterval(this.intervalId);
-        this.props.addStats(n, count);
+        this.props.addStats(n, this.props.pModel._openSites);
         this.props.stop();
       }
     }, 50);
@@ -47,18 +53,14 @@ export class Controls extends Component {
   }
 
   resetSimulation = () => {
-    const { dimensions: { n } } = this.props;
+    const { n } = this.state;
 
     this.props.createDisjointSet(n);
   }
 
   render () {
-    const {
-      dimensions: { n },
-      simulator: { running },
-      disjointSet,
-      stats,
-    } = this.props;
+    const { n } = this.state;
+    const { running, pModel, stats } = this.props;
 
     return (
       <Fragment>
@@ -88,7 +90,7 @@ export class Controls extends Component {
                 </a>
                 <a className="waves-effect waves-light btn blue darken-3"
                   onClick={this.resetSimulation}
-                  disabled={!disjointSet.length || running}>
+                  disabled={pModel ? !pModel._sites.length : [] || running}>
                   Reset
                 </a>
               </div>
@@ -102,15 +104,13 @@ export class Controls extends Component {
 }
 
 const mapStateToProps = state => ({
-  dimensions: state.dimensions,
-  simulator: state.simulator,
-  disjointSet: state.disjointSet,
+  running: state.simulator.running,
+  pModel: state.percolation.model,
   stats: state.stats,
 });
 
 const mapDispatchToProps = dispatch => ({
   createDisjointSet: n => dispatch(createDisjointSet(n)),
-  setDimensions: n => dispatch(setDimensions(n)),
   run: () => dispatch(run()),
   stop: () => dispatch(stop()),
   addStats: (n, count) => dispatch(addStats(n, count)),
