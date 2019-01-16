@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
 
 import {
-  SET_DIMENSION, RUN, STOP, OPEN_RANDOM, CREATE_DISJOINT_SET,
+  RUN, STOP, OPEN_RANDOM, CREATE_DISJOINT_SET,
   INIT_SIMULATOR_STATE, INIT_INPUT_STATE, ADD_STATS,
 } from './constants';
-import { random, createSet, neighbors, open, checkPercolationAndFill } from './utils'
+import { random } from './utils/utils';
+import Percolation from './utils/Percolation';
 
 function simulator(state = INIT_SIMULATOR_STATE, action) {
   switch (action.type) {
@@ -22,31 +23,30 @@ function simulator(state = INIT_SIMULATOR_STATE, action) {
   }
 }
 
-function dimensions(state = INIT_INPUT_STATE, action) {
-  switch (action.type) {
-    case SET_DIMENSION:
-      return { ...state, n: action.payload.n };
-
-    default:
-      return state;
-  }
-}
-
-function disjointSet(state = [], action) {
+function percolation(state = {}, action) {
   switch (action.type) {
     case CREATE_DISJOINT_SET:
       const { n } = action.payload;
-      let disjointSet = createSet(n);
-
-      return neighbors(disjointSet, n);
+      return {
+        ...state,
+        model: new Percolation(n),
+      };
 
     case OPEN_RANDOM:
-      let newState = [...state];
-      let closed = state.filter(elem => elem.state === 'close')
+      while (true) {
+        const max = state.model._size - 1;
+        const [ row, col ] = [ random(0, max), random(0, max) ];
 
-      newState = open(newState, random(closed));
+        if (!state.model.isOpen(row, col)) {
+          state.model.open(row, col);
+          break;
+        }
+      }
 
-      return checkPercolationAndFill(newState);
+      return {
+        ...state,
+        sites: state.model._sites,
+      };
 
     default:
       return state;
@@ -73,8 +73,7 @@ function stats(state = [], action) {
 
 const rootReducer = combineReducers({
   simulator,
-  dimensions,
-  disjointSet,
+  percolation,
   stats,
 });
 
