@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 import {
   RUN, STOP, OPEN_RANDOM, CREATE_DISJOINT_SET,
-  INIT_SIMULATOR_STATE, INIT_INPUT_STATE, ADD_STATS,
+  INIT_SIMULATOR_STATE, ADD_STATS,
 } from './constants';
 import { random } from './utils/utils';
 import Percolation from './utils/Percolation';
