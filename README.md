@@ -1,5 +1,8 @@
 # Site percolation simulation
 
+[![Build Status](https://travis-ci.org/olha-kurkaiedova/percolation.svg?branch=master)](https://travis-ci.org/olha-kurkaiedova/percolation)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 [DEMO](https://percolation.yetanother.one/)
 
 I model the system as an n-by-n grid of sites. Each site is either blocked (black) or open (white);
@@ -17,7 +20,3 @@ A union-find algorithm is an algorithm that performs two useful operations on su
  - **Union**: Join two subsets into a single subset.
  - **Find**: Determine which subset a particular element is in. This can be used for determining if
 two elements are in the same subset.
-
-## License
-
-MIT
