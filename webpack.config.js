@@ -19,7 +19,8 @@ module.exports = () => {
 
     output: {
       filename: '[name].[chunkhash].js',
-      path: path.resolve(__dirname, 'dist')
+      path: path.resolve(__dirname, 'dist'),
+      publicPath: '/'
     },
 
     module: {
@@ -53,7 +54,8 @@ module.exports = () => {
     plugins: [
       new CleanWebpackPlugin([path.resolve(__dirname, 'dist')]),
       new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'src', 'index.html')
+        template: path.resolve(__dirname, 'src', 'index.html'),
+        favicon: path.resolve(__dirname, 'src', 'favicon.ico')
       }),
       new MiniCssExtractPlugin({
         filename: "[name].[chunkhash].css"
