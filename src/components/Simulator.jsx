@@ -1,71 +1,59 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import Dot from './Dot';
 import Loader from './Loader';
 
-export class Simulator extends Component {
-  static propTypes = {
-    elementSize: PropTypes.number,
-    setWidth: PropTypes.number,
-    percolation: PropTypes.object,
+const getSetStyles = setWidth => ({
+  maxWidth: setWidth + 'px',
+  minWidth: setWidth + 'px',
+})
+
+const STATES = { CLOSE: 'close', OPEN: 'open', FULL: 'full' }
+
+const getDisjointSet = (percolation, elementSize) => {
+  if (!percolation) {
+    return <Loader />;
   }
 
-   static getSetStyles = setWidth => ({
-    maxWidth: setWidth + 'px',
-    minWidth: setWidth + 'px',
-  })
+  let rv = [];
 
-  static STATES = { CLOSE: 'close', OPEN: 'open', FULL: 'full' }
+  for (let i = 0; i < percolation._size; i++) {
+    for (let j = 0; j < percolation._size; j++) {
+      const key = i * percolation._size + j;
 
-  getDisjointSet = (percolation, elementSize) => {
-    if (!percolation) {
-      return <Loader />;
-    }
+      let state = STATES.CLOSE;
 
-    let rv = [];
-    
-    for (let i = 0; i < percolation._size; i++) {
-      for (let j = 0; j < percolation._size; j++) {
-        const key = i * percolation._size + j;
-
-        let state = Simulator.STATES.CLOSE;
-
-        if (percolation.isFull(i, j)) {
-          state = Simulator.STATES.FULL;
-        } else if (percolation.isOpen(i, j)) {
-          state = Simulator.STATES.OPEN;
-        }
-
-        rv.push(<Dot key={key} state={state} size={elementSize} />);
+      if (percolation.isFull(i, j)) {
+        state = STATES.FULL;
+      } else if (percolation.isOpen(i, j)) {
+        state = STATES.OPEN;
       }
-    }
 
-    return rv;
+      rv.push(<Dot key={key} state={state} size={elementSize} />);
+    }
   }
 
-  render () {
-    const { elementSize, setWidth, percolation } = this.props;
-    const styles = Simulator.getSetStyles(setWidth);
+  return rv;
+}
 
-    return (
-      <Fragment>
-        <div className="col s12 m9">
-          <div className="card-panel center">
-            <h5 className="card-title">Visualization</h5>
-            <div className="card-content">
-              <div className="row">
-                <div className="set-wrapper" style={styles}>
-                  {this.getDisjointSet(percolation.model, elementSize)}
-                </div>
-              </div>
+const Simulator = ({ elementSize, setWidth, percolation }) => {
+  const styles = getSetStyles(setWidth);
+
+  return (
+    <div className="col s12 m9">
+      <div className="card-panel center">
+        <h5 className="card-title">Visualization</h5>
+        <div className="card-content">
+          <div className="row">
+            <div className="set-wrapper" style={styles}>
+              {getDisjointSet(percolation.model, elementSize)}
             </div>
           </div>
         </div>
-      </Fragment>
-    )
-  }
+      </div>
+    </div>
+  )
 }
 
 const mapStateToProps = state => ({

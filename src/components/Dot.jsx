@@ -1,27 +1,20 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
 import { SIMULATOR_COLORS } from '../constants';
 
-export default class Dot extends Component {
-  static propTypes = {
-    state: PropTypes.string,
-    size: PropTypes.number,
-  }
+const Dot = ({ size, state }) => {
+  const styles = getDotStyles(size, state);
 
-  static getDotStyles = (size, state) => ({
-    float: 'left',
-    width: size + 'px',
-    height: size + 'px',
-    background: SIMULATOR_COLORS[state]
-  })
+  return (
+    <span style={styles}></span>
+  );
+};
 
-  render() {
-    const { size, state } = this.props;
-    const styles = Dot.getDotStyles(size, state);
+const getDotStyles = (size, state) => ({
+  float: 'left',
+  width: size + 'px',
+  height: size + 'px',
+  background: SIMULATOR_COLORS[state]
+});
 
-    return (
-      <span style={styles}></span>
-    );
-  }
-}
+export default Dot;
