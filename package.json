@@ -1,6 +1,6 @@
 {
   "name": "percolation",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Percolation problem in Javascript",
   "main": "dist/index.js",
   "scripts": {
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/olha-kurkaiedova/percolation.git"
+    "url": "git+https://github.com/lotrien/percolation.git"
   },
   "author": "Olha Kurkaiedova",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/olha-kurkaiedova/percolation/issues"
+    "url": "https://github.com/lotrien/percolation/issues"
   },
-  "homepage": "https://github.com/olha-kurkaiedova/percolation#readme",
+  "homepage": "https://github.com/lotrien/percolation#readme",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
