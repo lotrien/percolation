@@ -1,74 +1,13 @@
-const path = require('path');
+const merge = require('webpack-merge');
 
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const commonConfig = require('./common.webpack.config');
+const devConfig = require('./dev.webpack.config');
+const prodConfig = require('./prod.webpack.config');
 
-module.exports = () => {
-  const config = {
-    mode: 'development',
-    devtool: 'source-map',
-    devServer: {
-      historyApiFallback: true,
-    },
+module.exports = mode => {
+    if (mode === 'production') {
+        return merge.smart(commonConfig, prodConfig, { mode });
+    }
 
-    entry: {
-      app: path.resolve(__dirname, 'src', 'index.jsx'),
-    },
-
-    output: {
-      filename: '[name].[chunkhash].js',
-      path: path.resolve(__dirname, 'dist'),
-      publicPath: '/'
-    },
-
-    module: {
-      rules: [
-        {
-          test: /\.jsx?$/,
-          exclude: /node_modules/,
-          include: path.resolve(__dirname, 'src'),
-          use: ['babel-loader']
-        },
-
-        {
-          test: /\.css$/,
-          use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-              options: {
-                publicPath: path.resolve(__dirname, 'dist')
-              }
-            },
-            "css-loader"
-          ]
-        }
-      ]
-    },
-
-    resolve: {
-      extensions: ['.js', '.jsx'],
-    },
-
-    plugins: [
-      new CleanWebpackPlugin([path.resolve(__dirname, 'dist')]),
-      new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'src', 'index.html'),
-        favicon: path.resolve(__dirname, 'src', 'favicon.ico')
-      }),
-      new MiniCssExtractPlugin({
-        filename: "[name].[chunkhash].css"
-      })
-    ]
-  };
-
-  if (process.env.NODE_ENV === 'production') {
-    config.plugins = [
-      new webpack.EnvironmentPlugin({ NODE_ENV: JSON.stringify('production') }),
-      new webpack.optimize.UglifyJsPlugin()
-    ];
-  }
-
-  return config;
-}
+    return merge.smart(commonConfig, devConfig, { mode })
+};
