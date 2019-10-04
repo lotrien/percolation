@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import {
   setDimensions, createDisjointSet, run, stop, openRandom, addStats,
-} from '../actions'
+} from '../store/actions'
 import { INIT_INPUT_STATE } from '../constants';
 import { isValid } from '../utils/utils';
 import Stats from './Stats';
