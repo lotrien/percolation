@@ -2,10 +2,17 @@ import { combineReducers } from 'redux';
 
 import {
   RUN, STOP, OPEN_RANDOM, CREATE_DISJOINT_SET,
-  INIT_SIMULATOR_STATE, ADD_STATS,
-} from './constants';
-import { random } from './utils/utils';
-import Percolation from './utils/Percolation';
+  ADD_STATS,
+} from './actionTypes';
+import { random } from '../utils/utils';
+import Percolation from '../utils/Percolation';
+import { INIT_INPUT_STATE } from '../constants';
+
+const INIT_SIMULATOR_STATE = {
+  elementSize: 15,
+  running: false,
+  setWidth: 15 * INIT_INPUT_STATE.n,
+};
 
 function simulator(state = INIT_SIMULATOR_STATE, action) {
   switch (action.type) {
