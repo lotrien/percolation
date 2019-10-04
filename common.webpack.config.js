@@ -10,7 +10,7 @@ module.exports = {
   },
   
   output: {
-    filename: '[name].[chunkhash].js',
+    filename: '[name].[hash].js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/'
   },
@@ -50,7 +50,7 @@ module.exports = {
       favicon: path.resolve(__dirname, 'src', 'favicon.ico')
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].[chunkhash].css'
+      filename: '[name].[hash].css'
     }),
   ],
 };
