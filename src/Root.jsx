@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
 import App from './components/App';
-import rootReducer from './store/reducers';
+import { store } from './store/configureStore';
 
 import './styles.css'
-
-const store = createStore(rootReducer);
 
 export default class Root extends Component {
   render() {
