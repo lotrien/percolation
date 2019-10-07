@@ -1,7 +1,8 @@
-import { combineReducers } from 'redux';
-
 import {
-  RUN, STOP, OPEN_RANDOM, CREATE_DISJOINT_SET,
+  RUN,
+  STOP,
+  OPEN_RANDOM,
+  CREATE_DISJOINT_SET,
   ADD_STATS,
 } from './actionTypes';
 import { random } from '../utils/utils';
@@ -83,5 +84,16 @@ const rootReducer = combineReducers({
   percolation,
   stats,
 });
+
+function combineReducers(reducers) {
+  return (state = {}, action) => {
+    return Object.keys(reducers).reduce(
+      (nextState, key) => {
+        nextState[key] = reducers[key](state[key], action);
+        return nextState;
+      }, {}
+    );
+  }
+}
 
 export default rootReducer;

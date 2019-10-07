@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import Dot from './Dot';
 import Loader from './Loader';
@@ -56,10 +55,4 @@ const Simulator = ({ elementSize, setWidth, percolation }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  elementSize: state.simulator.elementSize,
-  setWidth: state.simulator.setWidth,
-  percolation: state.percolation,
-});
-
-export default connect(mapStateToProps, null)(Simulator);
+export default Simulator;
