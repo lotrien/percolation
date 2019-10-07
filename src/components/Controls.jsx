@@ -1,10 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-import {
-  setDimensions, createDisjointSet, run, stop, openRandom, addStats,
-} from '../store/actions'
 import { INIT_INPUT_STATE } from '../constants';
 import { isValid } from '../utils/utils';
 import Stats from './Stats';
@@ -103,18 +99,4 @@ export class Controls extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  running: state.simulator.running,
-  pModel: state.percolation.model,
-  stats: state.stats,
-});
-
-const mapDispatchToProps = dispatch => ({
-  createDisjointSet: n => dispatch(createDisjointSet(n)),
-  run: () => dispatch(run()),
-  stop: () => dispatch(stop()),
-  addStats: (n, count) => dispatch(addStats(n, count)),
-  openRandom: () => dispatch(openRandom()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Controls);
+export default Controls;
