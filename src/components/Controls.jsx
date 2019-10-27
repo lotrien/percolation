@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
 
 import { INIT_INPUT_STATE } from '../constants';
 import { isValid } from '../utils/utils';
@@ -11,12 +10,6 @@ export class Controls extends Component {
     this.state = {
       n: INIT_INPUT_STATE.n,
     }
-  }
-
-  static propTypes = {
-    running: PropTypes.bool,
-    pModel: PropTypes.object,
-    stats: PropTypes.array,
   }
 
   setDimensions = n => this.setState({ n });
@@ -40,19 +33,19 @@ export class Controls extends Component {
         this.props.stop();
       }
     }, 50);
-  }
+  };
 
   stopSimulation = () => {
     clearInterval(this.intervalId);
 
     this.props.stop();
-  }
+  };
 
   resetSimulation = () => {
     const { n } = this.state;
 
     this.props.createDisjointSet(n);
-  }
+  };
 
   render () {
     const { n } = this.state;

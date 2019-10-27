@@ -1,18 +1,18 @@
 import React from 'react';
 
 import Dot from './Dot';
-import Loader from './Loader';
+import { SIMULATOR_STATES } from '../constants';
 
 const getSetStyles = setWidth => ({
   maxWidth: setWidth + 'px',
   minWidth: setWidth + 'px',
-})
+});
 
-const STATES = { CLOSE: 'close', OPEN: 'open', FULL: 'full' }
+const getDisjointSet = (percolation, elementSize, setWidth) => {
+  const styles = getSetStyles(setWidth);
 
-const getDisjointSet = (percolation, elementSize) => {
   if (!percolation) {
-    return <Loader />;
+    return <div>Hit 'Run' with desired dimensions to start simulation</div>;
   }
 
   let rv = [];
@@ -21,38 +21,38 @@ const getDisjointSet = (percolation, elementSize) => {
     for (let j = 0; j < percolation._size; j++) {
       const key = i * percolation._size + j;
 
-      let state = STATES.CLOSE;
+      let state = SIMULATOR_STATES.CLOSE;
 
       if (percolation.isFull(i, j)) {
-        state = STATES.FULL;
+        state = SIMULATOR_STATES.FULL;
       } else if (percolation.isOpen(i, j)) {
-        state = STATES.OPEN;
+        state = SIMULATOR_STATES.OPEN;
       }
 
       rv.push(<Dot key={key} state={state} size={elementSize} />);
     }
   }
 
-  return rv;
-}
+  return (
+    <div className="set-wrapper" style={styles}>
+      {rv}
+    </div>
+  )
+};
 
 const Simulator = ({ elementSize, setWidth, percolation }) => {
-  const styles = getSetStyles(setWidth);
-
   return (
     <div className="col s12 m9">
       <div className="card-panel center">
         <h5 className="card-title">Visualization</h5>
         <div className="card-content">
           <div className="row">
-            <div className="set-wrapper" style={styles}>
-              {getDisjointSet(percolation.model, elementSize)}
-            </div>
+            {getDisjointSet(percolation.model, elementSize, setWidth)}
           </div>
         </div>
       </div>
     </div>
   )
-}
+};
 
 export default Simulator;

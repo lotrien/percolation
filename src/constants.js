@@ -5,3 +5,5 @@ export const SIMULATOR_COLORS = {
   close: '#212121',
   full: '#0d47a1',
 };
+
+export const SIMULATOR_STATES = { CLOSE: 'close', OPEN: 'open', FULL: 'full' };

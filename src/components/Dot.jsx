@@ -6,7 +6,7 @@ const Dot = ({ size, state }) => {
   const styles = getDotStyles(size, state);
 
   return (
-    <span style={styles}></span>
+    <span style={styles} />
   );
 };
 

@@ -3,7 +3,8 @@ import React, { Fragment, useReducer } from 'react';
 import rootReducer from '../store/reducer';
 import {
   createDisjointSet,
-  run, stop,
+  run,
+  stop,
   openRandom,
   addStats,
 } from '../store/actions'

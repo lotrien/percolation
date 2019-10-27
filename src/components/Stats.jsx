@@ -12,7 +12,7 @@ const Stats = ({ stats }) => {
         <li key={key}>{n}-by-{n} system percolates with {count} open elements out of {n * n} ({getStat(count, n)})</li>
       )
     })
-  }
+  };
 
   return (
     <div className="row stats">
@@ -22,10 +22,10 @@ const Stats = ({ stats }) => {
       </div>
     </div>
   )
-}
+};
 
 const getStat = (count, n) => {
   return (count / (n * n)).toFixed(2)
-}
+};
 
 export default Stats;
