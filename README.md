@@ -1,4 +1,4 @@
-# Site percolation simulation
+# Site percolation (Monte Carlo simulation)
 
 [![Build Status](https://travis-ci.org/lotrien/percolation.svg?branch=master)](https://travis-ci.org/lotrien/percolation)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
