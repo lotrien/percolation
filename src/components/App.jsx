@@ -35,31 +35,31 @@ const App = () => {
   const stopA = () => dispatch(stop());
   const addStatsA = (n, count) => dispatch(addStats(n, count));
   const openRandomA = () => dispatch(openRandom());
-  
+
   return (
     <Fragment>
       <nav className="blue darken-2">
         <div className="nav-wrapper">
           <a href="/" className="brand-logo">Percolation Simulator</a>
           <ul className="right">
-            <li><a href="https://github.com/lotrien/percolation">View on GitHub</a></li>
+            <li><a href="https://github.com/lotrien/percolation">GitHub</a></li>
            </ul>
         </div>
       </nav>
       <div className="row">
-        <Controls 
-          running={simulator.running} 
-          pModel={percolation.model} 
+        <Controls
+          running={simulator.running}
+          pModel={percolation.model}
           stats={stats}
           run={runA}
           stop={stopA}
           addStats={addStatsA}
           openRandom={openRandomA}
-          createDisjointSet={createDisjointSetA} 
+          createDisjointSet={createDisjointSetA}
         />
-        <Simulator 
-          percolation={percolation} 
-          elementSize={simulator.elementSize} 
+        <Simulator
+          percolation={percolation}
+          elementSize={simulator.elementSize}
           setWidth={simulator.setWidth}
         />
       </div>
