@@ -3,14 +3,9 @@ import React from 'react';
 import Dot from './Dot';
 import { SIMULATOR_STATES } from '../constants';
 
-const getSetStyles = setWidth => ({
-  maxWidth: setWidth + 'px',
-  minWidth: setWidth + 'px',
-});
+const MemoDot = React.memo(Dot);
 
-const getDisjointSet = (percolation, elementSize, setWidth) => {
-  const styles = getSetStyles(setWidth);
-
+const getDisjointSet = (percolation, n) => {
   if (!percolation) {
     return <div>Hit 'Run' with desired dimensions to start simulation</div>;
   }
@@ -29,25 +24,30 @@ const getDisjointSet = (percolation, elementSize, setWidth) => {
         state = SIMULATOR_STATES.OPEN;
       }
 
-      rv.push(<Dot key={key} state={state} size={elementSize} />);
+      rv.push(<MemoDot key={key} state={state} />);
     }
   }
 
+  const wrapperStyles = {
+    maxWidth: `${n * 15}px`,
+    minWidth: `${n * 15}px`,
+  };
+
   return (
-    <div className="set-wrapper" style={styles}>
+    <div className="set-wrapper" style={wrapperStyles}>
       {rv}
     </div>
   )
 };
 
-const Simulator = ({ elementSize, setWidth, percolation }) => {
+const Simulator = ({ n, percolation }) => {
   return (
     <div className="col s12 m9">
       <div className="card-panel center">
         <h5 className="card-title">Visualization</h5>
         <div className="card-content">
           <div className="row">
-            {getDisjointSet(percolation.model, elementSize, setWidth)}
+            {getDisjointSet(percolation.model, n)}
           </div>
         </div>
       </div>

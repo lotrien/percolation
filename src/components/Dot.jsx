@@ -2,18 +2,18 @@ import React from 'react';
 
 import { SIMULATOR_COLORS } from '../constants';
 
-const Dot = ({ size, state }) => {
-  const styles = getDotStyles(size, state);
+const Dot = ({ state }) => {
+  const styles = getDotStyles(state);
 
   return (
     <span style={styles} />
   );
 };
 
-const getDotStyles = (size, state) => ({
+const getDotStyles = (state) => ({
   float: 'left',
-  width: size + 'px',
-  height: size + 'px',
+  width: '15px',
+  height: '15px',
   background: SIMULATOR_COLORS[state]
 });
 

@@ -1,8 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, memo } from 'react';
 
 import { INIT_INPUT_STATE } from '../constants';
 import { isValid } from '../utils/utils';
 import Stats from './Stats';
+
+const MemoStats = memo(Stats);
 
 export class Controls extends Component {
   constructor() {
@@ -83,7 +85,7 @@ export class Controls extends Component {
                   Reset
                 </a>
               </div>
-              <Stats stats={stats} />
+              {stats.length > 0 && <MemoStats stats={stats} />}
             </div>
           </div>
         </div>

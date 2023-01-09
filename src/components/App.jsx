@@ -8,7 +8,6 @@ import {
   openRandom,
   addStats,
 } from '../store/actions'
-import { INIT_INPUT_STATE } from '../constants';
 
 import Controls from './Controls';
 import Simulator from './Simulator';
@@ -16,11 +15,9 @@ import Simulator from './Simulator';
 import '../styles.css'
 
 const App = () => {
-  const [ state, dispatch ] = useReducer(rootReducer, {
+  const [state, dispatch] = useReducer(rootReducer, {
     simulator: {
-      elementSize: 15,
       running: false,
-      setWidth: 15 * INIT_INPUT_STATE.n,
     },
     percolation: {},
     stats: []
@@ -29,7 +26,6 @@ const App = () => {
   // ToDo: consider using useContext to cleanup
   const { stats, percolation, simulator } = state;
 
-  // Controls actions
   const createDisjointSetA = n => dispatch(createDisjointSet(n));
   const runA = () => dispatch(run());
   const stopA = () => dispatch(stop());
@@ -57,11 +53,7 @@ const App = () => {
           openRandom={openRandomA}
           createDisjointSet={createDisjointSetA}
         />
-        <Simulator
-          percolation={percolation}
-          elementSize={simulator.elementSize}
-          setWidth={simulator.setWidth}
-        />
+        <Simulator percolation={percolation} n={simulator.n} />
       </div>
      </Fragment>
   );

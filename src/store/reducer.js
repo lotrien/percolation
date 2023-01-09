@@ -10,15 +10,14 @@ import Percolation from '../utils/Percolation';
 import { INIT_INPUT_STATE } from '../constants';
 
 const INIT_SIMULATOR_STATE = {
-  elementSize: 15,
   running: false,
-  setWidth: 15 * INIT_INPUT_STATE.n,
+  n: INIT_INPUT_STATE.n,
 };
 
 function simulator(state = INIT_SIMULATOR_STATE, action) {
   switch (action.type) {
     case CREATE_DISJOINT_SET:
-      return { ...state, setWidth: state.elementSize * action.payload.n };
+      return { ...state, n: action.payload.n };
 
     case RUN:
       return { ...state, running: true };
