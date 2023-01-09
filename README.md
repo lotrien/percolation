@@ -1,6 +1,6 @@
 # Site percolation (Monte Carlo simulation)
 
-[![Build Status](https://travis-ci.org/lotrien/percolation.svg?branch=master)](https://travis-ci.org/lotrien/percolation)
+![Build Status](https://github.com/lotrien/percolation/actions/workflows/deploy.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 [DEMO](https://percolation.yetanother.one/)
