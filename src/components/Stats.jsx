@@ -3,6 +3,8 @@ import React from 'react';
 const getStat = (count, n) => (count / (n * n)).toFixed(2);
 
 const Stats = ({ stats }) => {
+  if (stats.legth < 1) return null;
+
   return (
     <div className="row stats">
       <div className="col s12">

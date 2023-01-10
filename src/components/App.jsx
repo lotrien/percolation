@@ -1,18 +1,15 @@
-import React, { Fragment, useReducer } from 'react';
+import React, { Fragment, useReducer, memo } from 'react';
 
 import rootReducer from '../store/reducer';
-import {
-  createDisjointSet,
-  run,
-  stop,
-  openRandom,
-  addStats,
-} from '../store/actions'
+import * as actions from '../store/actions'
 
 import Controls from './Controls';
 import Simulator from './Simulator';
+import Stats from './Stats';
 
 import '../styles.css'
+
+const MemoStats = memo(Stats);
 
 const App = () => {
   const [state, dispatch] = useReducer(rootReducer, {
@@ -26,11 +23,11 @@ const App = () => {
   // ToDo: consider using useContext to cleanup
   const { stats, percolation, simulator } = state;
 
-  const createDisjointSetA = n => dispatch(createDisjointSet(n));
-  const runA = () => dispatch(run());
-  const stopA = () => dispatch(stop());
-  const addStatsA = (n, count) => dispatch(addStats(n, count));
-  const openRandomA = () => dispatch(openRandom());
+  const createDisjointSet = n => dispatch(actions.createDisjointSet(n));
+  const run = () => dispatch(actions.run());
+  const stop = () => dispatch(actions.stop());
+  const addStats = (n, count) => dispatch(actions.addStats(n, count));
+  const openRandom = () => dispatch(actions.openRandom());
 
   return (
     <Fragment>
@@ -46,13 +43,14 @@ const App = () => {
         <Controls
           running={simulator.running}
           pModel={percolation.model}
-          stats={stats}
-          run={runA}
-          stop={stopA}
-          addStats={addStatsA}
-          openRandom={openRandomA}
-          createDisjointSet={createDisjointSetA}
-        />
+          run={run}
+          stop={stop}
+          addStats={addStats}
+          openRandom={openRandom}
+          createDisjointSet={createDisjointSet}
+        >
+          <MemoStats stats={stats} />
+        </Controls>
         <Simulator percolation={percolation} n={simulator.n} />
       </div>
      </Fragment>
